@@ -8,7 +8,7 @@ public class User extends Player {
         super(x);
     }
 
-    public static void Move(char[][] table) {
+    public void Move(char[][] table) {
         Scanner in = new Scanner(System.in);
         int[] cord;
         boolean ex;
@@ -31,7 +31,7 @@ public class User extends Player {
     }
 
 
-    private static int[] Coordinates(String str) {
+    private int[] Coordinates(String str) {
         int[] cord = new int[2];
         for (int i = 0; i < 2; i++) {
             switch (str.charAt(i + i)) {
