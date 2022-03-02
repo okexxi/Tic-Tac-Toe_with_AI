@@ -16,8 +16,8 @@ public class Main {
             System.out.println("Bad parameters!");
             return null;
         }
-        if ((para[1].equals("easy") || para[1].equals("user")) &&
-                (para[2].equals("easy") || para[2].equals("user"))) {
+        if ((para[1].equals("easy") || para[1].equals("user") || para[1].equals("medium")) &&
+                (para[2].equals("easy") || para[2].equals("user") || para[2].equals("medium"))) {
             return para;
         }
         System.out.println("Bad parameters!");
@@ -36,63 +36,6 @@ public class Main {
         System.out.println("---------");
     }
 
-
-    public static int[] Coordinates(String str) {
-        int[] cord = new int[2];
-        for (int i = 0; i < 2; i++) {
-            switch (str.charAt(i + i)) {
-                case '1':
-                    cord[i] = 1;
-                    break;
-                case '2':
-                    cord[i] = 2;
-                    break;
-                case '3':
-                    cord[i] = 3;
-                    break;
-                default:
-                    return cord;
-            }
-        }
-        return cord;
-    }
-
-
-    public static void NextMoveUser(char[][] table, char XOR) {
-        int[] cord;
-        boolean ex;
-        do {
-            ex = false;
-            System.out.print("Enter the coordinates: ");
-            String coord = in.nextLine();
-            coord = coord.trim();
-            cord = Coordinates(coord);
-            if (cord[0] == 0 || cord[1] == 0) {         //00 значит неправильность, метод Coordinates
-                ex = true;
-            }
-            if (table[cord[0] - 1][cord[1] - 1] != ' ') {
-                System.out.println("This cell is occupied! Choose another one!");
-                ex = true;
-            }
-        } while (ex);
-        table[cord[0] - 1][cord[1] - 1] = XOR;
-        PrintTable(table);
-    }
-
-
-    public static char[][] NextMoveAI(char[][] table, char XOR) {
-        Random random = new Random();
-        int x = random.nextInt(3);
-        int y = random.nextInt(3);
-        if (table[x][y] != ' ') {
-            table =NextMoveAI(table, XOR);
-        } else {
-            table[x][y] = XOR;
-            System.out.println("Making move level \"easy\"");
-            PrintTable(table);
-        }
-        return table;
-    }
 
     public static boolean WhoWins(char[][] table, int count) {
         int n, m;
@@ -136,7 +79,8 @@ public class Main {
                 for (int j = 0; j < 3; j++) {
                     tabl[i][j] = ' ';
                 }
-            } n = 0;
+            }
+            n = 0;
             System.out.print("Input command: ");
             String command = in.nextLine();
             if (command.equals("exit")) {
@@ -147,27 +91,41 @@ public class Main {
                 continue;
             }
             PrintTable(tabl);
-            do {
-                switch (parameters[1]){
-                    case "easy":
-                        NextMoveAI(tabl, 'X');
-                        n++;
-                        break;
-                    case "user":
-                        NextMoveUser(tabl, 'X');
-                        n++; break;
-                }
+            Player player1;
+            Player player2;
+            switch (parameters[1]){
+                case "easy":
+                    player1 = new EasyAI('X');
+                    break;
+                case "medium":
+                    player1 = new MediumAI('X');
+                    break;
+                case "user":
+                    player1 = new User('X');
+                    break;
+                default:
+                    player1 = new Player();
+            }
 
+            switch (parameters[2]){
+                case "easy":
+                    player2 = new EasyAI('O');
+                    break;
+                case "medium":
+                    player2 = new MediumAI('O');
+                    break;
+                case "user":
+                    player2 = new User('O');
+                    break;
+                default:
+                    player2 = new Player();
+            }
+            do {
+                player1.Move();
+                n++;
                 if (!WhoWins(tabl, n)) break;
-                switch (parameters[2]){
-                    case "easy":
-                        NextMoveAI(tabl, 'O');
-                        n++;
-                        break;
-                    case "user":
-                        NextMoveUser(tabl, 'O');
-                        n++; break;
-                }
+                player2.Move();
+                n++;
             } while (WhoWins(tabl, n));
         }while (true);
     }
