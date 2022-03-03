@@ -2,7 +2,7 @@ package tictactoe;
 
 import java.util.Random;
 
-public class EasyAI extends Player {
+public class EasyAI extends Player implements PlayerInterface {
     public EasyAI(char x) {
         super(x);
     }
@@ -15,7 +15,6 @@ public class EasyAI extends Player {
             Move(table);
         } else {
             table[x][y] = getSymbol();
-            System.out.println("Making move level \"easy\"");
             Main.PrintTable(table);
         }
     }

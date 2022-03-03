@@ -1,6 +1,10 @@
 package tictactoe;
 
-public class Player {
+interface PlayerInterface  {
+    void Move(char[][] table);
+}
+
+public class Player implements PlayerInterface {
     private char symbol;
     private int ID;
 
@@ -20,7 +24,7 @@ public class Player {
         return symbol;
     }
 
-    public void Move() {
+    public void Move(char[][] table) {
         System.out.println("Something went wrong!");
     }
 }

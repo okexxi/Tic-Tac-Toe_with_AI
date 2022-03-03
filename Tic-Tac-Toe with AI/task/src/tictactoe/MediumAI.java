@@ -1,6 +1,6 @@
 package tictactoe;
 
-public class MediumAI extends EasyAI {
+public class MediumAI extends EasyAI implements PlayerInterface {
     public MediumAI(char x) {
         super(x);
     }
@@ -9,7 +9,7 @@ public class MediumAI extends EasyAI {
         int[] coordinates = {-1, -1};
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (!(i == 1 && j == 1)) {
+                /*if (!(i == 1 && j == 1)) {
                     if (table[1][1] == tic && table[i][j] == tic && table[2 - i][2 - j] == ' ') {
                         coordinates[0] = 2 - i;
                         coordinates[1] = 2 - j;
@@ -49,7 +49,7 @@ public class MediumAI extends EasyAI {
                             return coordinates;
                         }
                     }
-                }
+                }*/
 
             }
         }
@@ -66,10 +66,13 @@ public class MediumAI extends EasyAI {
             if (place[0] == -1) {
                 super.Move(table);
             }
+            else {
+                table[place[0]][place[1]] = symbol;
+                Main.PrintTable(table);
+            }
         }
         else {
             table[place[0]][place[1]] = symbol;
-            System.out.println("Making move level \"medium\"");
             Main.PrintTable(table);
         }
     }

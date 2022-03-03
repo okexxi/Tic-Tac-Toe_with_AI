@@ -91,8 +91,8 @@ public class Main {
                 continue;
             }
             PrintTable(tabl);
-            Player player1;
-            Player player2;
+            PlayerInterface player1;
+            PlayerInterface player2;
             switch (parameters[1]){
                 case "easy":
                     player1 = new EasyAI('X');
@@ -121,10 +121,16 @@ public class Main {
                     player2 = new Player();
             }
             do {
-                player1.Move();
+                if (!parameters[0].equals("user")){
+                    System.out.printf("Making move level \"" + parameters[0] + "\"");
+                }
+                player1.Move(tabl);
                 n++;
                 if (!WhoWins(tabl, n)) break;
-                player2.Move();
+                if (!parameters[1].equals("user")){
+                    System.out.printf("Making move level \"" + parameters[1] + "\"");
+                }
+                player2.Move(tabl);
                 n++;
             } while (WhoWins(tabl, n));
         }while (true);
