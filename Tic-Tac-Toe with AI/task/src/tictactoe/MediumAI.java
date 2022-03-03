@@ -7,7 +7,10 @@ public class MediumAI extends EasyAI implements PlayerInterface {
 
     private int[] Rule(char tic, char[][] table) {
         int[] coordinates = {-1, -1};
+        int icount, jcount, d1count = 0, d2count = 0;
         for (int i = 0; i < 3; i++) {
+            icount = 0;
+            jcount = 0;
             for (int j = 0; j < 3; j++) {
                 /*if (!(i == 1 && j == 1)) {
                     if (table[1][1] == tic && table[i][j] == tic && table[2 - i][2 - j] == ' ') {
@@ -50,7 +53,49 @@ public class MediumAI extends EasyAI implements PlayerInterface {
                         }
                     }
                 }*/
+                if (table[i][j] == tic) icount++;
+                if (table[j][i] == tic) jcount++;
+                if (i == 0){
+                    if (table[j][j] == tic) d1count++;
+                    if (table[j][2 - j] == tic) d2count++;
+                }
 
+            }
+            if (icount == 2){
+                for (int j = 0; j < 3; j++)  {
+                    if (table[i][j] == ' ') {
+                        coordinates[0] = i;
+                        coordinates[1] = j;
+                        return coordinates;
+                    }
+                }
+            }
+            if (jcount == 2){
+                for (int j = 0; j < 3; j++)  {
+                    if (table[j][i] == ' ') {
+                        coordinates[0] = j;
+                        coordinates[1] = i;
+                        return coordinates;
+                    }
+                }
+            }
+        }
+        if (d1count == 2){
+            for (int j = 0; j < 3; j++)  {
+                if (table[j][j] == ' ') {
+                    coordinates[0] = j;
+                    coordinates[1] = j;
+                    return coordinates;
+                }
+            }
+        }
+        if (d2count == 2){
+            for (int j = 0; j < 3; j++)  {
+                if (table[j][2 - j] == ' ') {
+                    coordinates[0] = j;
+                    coordinates[1] = 2 - j;
+                    return coordinates;
+                }
             }
         }
 
@@ -58,11 +103,14 @@ public class MediumAI extends EasyAI implements PlayerInterface {
     }
 
 
-    public void Move(char[][] table, User user) {
+    public void Move(char[][] table) {
         char symbol = getSymbol();
+        char userSymbol;
+        if (symbol == 'X') userSymbol = 'O';
+        else userSymbol = 'X';
         int[] place = Rule(symbol, table);
         if (place[0] == -1) {
-            place = Rule(user.getSymbol(), table);
+            place = Rule(userSymbol, table);
             if (place[0] == -1) {
                 super.Move(table);
             }

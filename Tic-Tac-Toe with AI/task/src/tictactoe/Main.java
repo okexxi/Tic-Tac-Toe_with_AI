@@ -121,14 +121,14 @@ public class Main {
                     player2 = new Player();
             }
             do {
-                if (!parameters[0].equals("user")){
-                    System.out.printf("Making move level \"" + parameters[0] + "\"");
+                if (!parameters[1].equals("user")){
+                    System.out.println("Making move level \"" + parameters[1] + "\"");
                 }
                 player1.Move(tabl);
                 n++;
                 if (!WhoWins(tabl, n)) break;
-                if (!parameters[1].equals("user")){
-                    System.out.printf("Making move level \"" + parameters[1] + "\"");
+                if (!parameters[2].equals("user")){
+                    System.out.println("Making move level \"" + parameters[2] + "\"");
                 }
                 player2.Move(tabl);
                 n++;
